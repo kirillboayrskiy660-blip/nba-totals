@@ -3,7 +3,7 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '0 14 * * *'
       timezone: Asia/Yekaterinburg
 
 concurrency:

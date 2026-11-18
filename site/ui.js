@@ -21,12 +21,12 @@ function table(target, columns, rows) {
 }
 function renderRows() {
   const rows = (report?.rows || []).filter((r) => !source.value || r[5] === source.value);
-  table("#preview", report?.headers || [], rows.slice(0, 50).map((r) => [
+  table("#preview", report?.headers || [], rows.map((r) => [
     r[0], r[1].toLocaleString("ru-RU"), number.format(r[2]), number.format(r[3]), r[4], r[5], r[6],
   ]));
-  document.querySelector("#count").textContent = rows.length > 50
-    ? "Показано 50 из " + rows.length + " строк. В Excel доступен полный отчёт по обоим источникам."
-    : rows.length ? "Строк в таблице: " + rows.length : report ? "По выбранному источнику строк нет." : "";
+  document.querySelector("#count").textContent = rows.length
+    ? "Строк в таблице: " + rows.length
+    : report ? "По выбранному источнику строк нет." : "";
 }
 function show(result) {
   report = result;
