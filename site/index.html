@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тоталы очков NBA</title>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./ui.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="label">Прематч · FONBET и БЕТСИТИ</p>
+      <h1>Тоталы очков NBA</h1>
+      <p class="intro">Выгрузка коэффициентов «Больше» и «Меньше» по игрокам.</p>
+      <div class="actions">
+        <a id="download" href="./NBA_totals.xlsx" download hidden>Скачать Excel</a>
+      </div>
+      <p id="message" role="status" aria-live="polite">Загружаю последний отчёт…</p>
+    </header>
+    <section aria-labelledby="preview-title">
+      <div class="section-heading">
+        <h2 id="preview-title">Тоталы игроков</h2>
+        <label>Букмекер <select id="source">
+          <option value="">Все</option>
+          <option>FONBET</option>
+          <option>БЕТСИТИ</option>
+        </select></label>
+      </div>
+      <div class="scroll" tabindex="0" aria-label="Таблица тоталов игроков"><table id="preview"></table></div>
+      <p id="count" class="muted"></p>
+    </section>
+    <details>
+      <summary>Статус сбора по матчам</summary>
+      <div class="scroll" tabindex="0" aria-label="Таблица статусов"><table id="statuses"></table></div>
+    </details>
+    <footer><p>Ежедневный сбор запланирован на 16:00 по Екатеринбургу. Показано время последнего отчёта.</p>
+      <a id="manual" hidden>Ручной сбор для владельца</a></footer>
+  </main>
+</body>
+</html>

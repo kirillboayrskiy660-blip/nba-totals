@@ -1,0 +1,32 @@
+:root{color-scheme:light;--ink:#152e40;--muted:#526774;--line:#d7e2e8;--paper:#f2f6f7;--teal:#005f59;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper)}
+*{box-sizing:border-box}
+body{margin:0}
+main{margin:0 auto;max-width:1240px;padding:32px clamp(12px,4vw,48px) 56px}
+header{background:#123345;color:#fff;border-radius:16px;padding:clamp(20px,4vw,42px);border-bottom:5px solid #62d9b8}
+.label{margin:0 0 12px;color:#a6e8d9;font-size:.86rem;font-weight:650}
+h1{margin:0;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:-.045em;line-height:1.05}
+.intro{margin:14px 0;color:#d4e4ed}
+.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:23px}
+a#download{font:inherit;font-weight:700;border:1px solid transparent;border-radius:8px;padding:11px 16px;cursor:pointer;text-decoration:none}
+a#download{background:#9be8d5;color:#123345}
+a#download:hover{background:#b6f7e7}
+[hidden]{display:none!important}
+#message{margin:16px 0 0;font-size:.92rem;color:#d4e4ed}
+section,details{background:white;border:1px solid var(--line);border-radius:12px;margin-top:20px;padding:16px}
+.section-heading{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:12px}
+h2{font-size:1.25rem;margin:0}
+label{font-size:.9rem;color:var(--muted)}
+select{margin-left:5px;padding:6px;border:1px solid #a4b6bf;border-radius:6px;background:white;color:var(--ink);font:inherit}
+.scroll{overflow:auto;border:1px solid var(--line);border-radius:7px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:680px}
+th,td{text-align:left;border-bottom:1px solid #e3ebef;padding:10px 9px}
+th{background:#e8f1f3;line-height:1.15}
+td:nth-child(2),td:nth-child(3),td:nth-child(4){font-variant-numeric:tabular-nums}
+tbody tr:nth-child(even){background:#f6fafb}
+.muted{color:var(--muted);font-size:.85rem;margin-bottom:0}
+summary{font-weight:650;cursor:pointer}
+details[open] summary{margin-bottom:12px}
+:focus-visible{outline:3px solid #1a9c8d;outline-offset:3px}
+
+footer{font-size:.9rem;color:var(--muted);padding:8px 2px}
+footer a{color:var(--teal)}
