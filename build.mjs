@@ -29,6 +29,7 @@ await Promise.all([
     ...report,
     startedLabel: dateText(report.startedAt),
     rows: report.rows.map(displayRow),
+    teamRows: report.teamRows.map(displayRow),
     headers, statusHeaders, ownerLink,
   })),
   writeFile(new URL("NBA_totals.xlsx", output), excel(report)),

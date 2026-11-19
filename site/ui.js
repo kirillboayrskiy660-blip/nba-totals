@@ -1,5 +1,7 @@
 import { collect } from "../lib/sources.js";
-import { dateText, displayRow, excel, headers, statusHeaders } from "../lib/excel.js";
+import { dateText, displayRow, excel, headers, statusHeaders, teamCells, teamHeaders } from "../lib/excel.js";
+
+import { createEvPanel } from "./ev-panel.js";
 
 const collectButton = document.querySelector("#collect");
 const download = document.querySelector("#download");
@@ -8,7 +10,7 @@ const source = document.querySelector("#source");
 const stat = document.querySelector("#stat");
 const number = new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 let report;
-let downloadUrl;
+let manualReport = false;
 function table(target, columns, rows) {
   const element = document.querySelector(target);
   element.replaceChildren();
@@ -22,9 +24,15 @@ function table(target, columns, rows) {
   const body = element.createTBody();
   for (const data of rows) {
     const row = body.insertRow();
-    for (const value of data) row.insertCell().textContent = value;
+    for (const value of data) {
+      const cell = row.insertCell();
+      if (value instanceof Node) cell.append(value);
+      else cell.textContent = value;
+    }
   }
 }
+const evPanel = createEvPanel(table);
+
 function renderRows() {
   const rows = (report?.rows || []).filter((r) =>
     (!source.value || r[5] === source.value) && (!stat.value || r[7] === stat.value));
@@ -34,13 +42,20 @@ function renderRows() {
   document.querySelector("#count").textContent = rows.length
     ? "Строк в таблице: " + rows.length
     : report ? "По выбранным фильтрам строк нет." : "";
+  const teams = (report?.teamRows || []).filter((r) =>
+    (!source.value || r[5] === source.value) && (!stat.value || r[7] === stat.value));
+  table("#team-table", teamHeaders, teams.map(teamCells));
+  document.querySelector("#team-count").textContent = teams.length ? "Строк в таблице: " + teams.length : "По выбранным фильтрам строк нет.";
 }
 function show(result, manual = false) {
   report = result && { ...result, rows: result.rows.map((row) => row.length === 7 ? [...row, "Очки"] : row) };
+  manualReport = manual;
   download.hidden = !result;
+  evPanel.setReport(report);
   const problems = result?.status.filter((s) => s[2].startsWith("Ошибка")).length || 0;
   message.textContent = result
-    ? (manual ? "Ручной отчёт от " : "Отчёт от ") + result.startedLabel + " (Екатеринбург) · строк: " + result.rows.length +
+    ? (manual ? "Ручной отчёт от " : "Отчёт от ") + result.startedLabel + " (Екатеринбург) · итоги игроков: " + result.rows.length +
+      " · командных линий: " + (result.teamRows?.length || 0) +
       (problems ? " · ошибок: " + problems + ". Подробности в статусах по матчам." : "")
     : "Первый отчёт ещё не опубликован.";
   table("#statuses", result?.statusHeaders || [], result?.status || []);
@@ -77,18 +92,31 @@ collectButton.addEventListener("click", async () => {
       message.textContent = "Новый сбор не удался. Подробности в статусах по матчам.";
       return;
     }
-    const file = new Blob([excel(result)], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    });
-    if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-    downloadUrl = URL.createObjectURL(file);
-    download.href = downloadUrl;
-    download.download = "NBA_totals_manual_" + result.startedAt.slice(0, 19).replaceAll(":", "-") + ".xlsx";
-    show({ ...result, startedLabel: dateText(result.startedAt), rows: result.rows.map(displayRow), statusHeaders }, true);
+    show({ ...result, startedLabel: dateText(result.startedAt), rows: result.rows.map(displayRow),
+      teamRows: result.teamRows.map(displayRow), statusHeaders }, true);
   } catch {
     message.textContent = "Не удалось создать новый отчёт. Попробуйте ещё раз.";
   } finally {
     collectButton.disabled = false;
     collectButton.textContent = "Собрать данные сейчас";
+  }
+});
+
+download.addEventListener("click", (event) => {
+  const assessments = evPanel.exportRows();
+  if (!report || (!manualReport && !assessments.length)) return;
+  event.preventDefault();
+  try {
+    const file = new Blob([excel(report, { formatted: true, assessments })], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = URL.createObjectURL(file);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "NBA_totals_" + report.startedAt.slice(0, 19).replaceAll(":", "-") + ".xlsx";
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch {
+    message.textContent = "Не удалось сформировать Excel.";
   }
 });

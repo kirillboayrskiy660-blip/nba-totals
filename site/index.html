@@ -12,13 +12,38 @@
     <header>
       <p class="label">Прематч · FONBET и БЕТСИТИ</p>
       <h1>Тоталы игроков NBA</h1>
-      <p class="intro">Выгрузка коэффициентов «Больше» и «Меньше» по игрокам.</p>
+      <p class="intro">Линии игроков и команд, расчёт EV и выгрузка в Excel.</p>
       <div class="actions">
         <button id="collect" type="button" disabled>Собрать данные сейчас</button>
         <a id="download" href="./NBA_totals.xlsx" download hidden>Скачать Excel</a>
       </div>
       <p id="message" role="status" aria-live="polite">Загружаю последний отчёт…</p>
     </header>
+    <details id="ev-panel" open>
+      <summary>Расчёт матожидания (EV)</summary>
+      <p class="muted">Выберите исход и введите свою оценку вероятности. Расчёт проходит фильтр при EV выше +18%. Оценки сохраняются в этом браузере.</p>
+      <form id="ev-form">
+        <div class="ev-fields">
+          <label>Рынки
+            <select id="ev-group"><option value="">Все</option><option value="team">Командные</option><option value="player">Игроки</option></select>
+          </label>
+          <label class="ev-wide">Матч <select id="ev-match"><option value="">Все матчи</option></select></label>
+          <label class="ev-wide">Поиск исхода <input id="ev-search" type="search" placeholder="Матч, игрок или показатель"></label>
+          <label class="ev-wide">Исход <select id="ev-line"><option value="">Загружаю линии…</option></select></label>
+          <label>Коэффициент <input id="ev-odds" inputmode="decimal" disabled></label>
+          <label>Вероятность прохода, % <input id="ev-win" inputmode="decimal" disabled></label>
+          <label id="ev-push-field" hidden>Вероятность возврата, % <input id="ev-push" inputmode="decimal"></label>
+        </div>
+        <p id="ev-note" class="muted" aria-live="polite"></p>
+        <div class="ev-actions">
+          <button id="ev-save" type="submit" disabled>Сохранить расчёт</button>
+          <button id="ev-remove" type="button" hidden>Удалить расчёт</button>
+          <label><input id="ev-positive" type="checkbox"> Только EV &gt; +18%</label>
+        </div>
+      </form>
+      <p id="ev-summary" class="muted"></p>
+      <div class="scroll" tabindex="0" aria-label="Расчёты EV"><table id="ev-table"></table></div>
+    </details>
     <section aria-labelledby="preview-title">
       <div class="section-heading">
         <h2 id="preview-title">Тоталы игроков</h2>
@@ -34,12 +59,18 @@
             <option>Подборы</option>
             <option>Передачи</option>
             <option>Забитые трёхочковые</option>
+            <option>Забитые двухочковые</option>
           </select></label>
         </div>
       </div>
       <div class="scroll" tabindex="0" aria-label="Таблица тоталов игроков"><table id="preview"></table></div>
       <p id="count" class="muted"></p>
     </section>
+    <details>
+      <summary>Командные линии</summary>
+      <div class="scroll" tabindex="0" aria-label="Форы и тоталы команд"><table id="team-table"></table></div>
+      <p id="team-count" class="muted"></p>
+    </details>
     <details>
       <summary>Статус сбора по матчам</summary>
       <div class="scroll" tabindex="0" aria-label="Таблица статусов"><table id="statuses"></table></div>
