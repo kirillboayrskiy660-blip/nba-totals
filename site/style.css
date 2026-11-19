@@ -7,13 +7,17 @@ header{background:#123345;color:#fff;border-radius:16px;padding:clamp(20px,4vw,4
 h1{margin:0;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:-.045em;line-height:1.05}
 .intro{margin:14px 0;color:#d4e4ed}
 .actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:23px}
-a#download{font:inherit;font-weight:700;border:1px solid transparent;border-radius:8px;padding:11px 16px;cursor:pointer;text-decoration:none}
-a#download{background:#9be8d5;color:#123345}
-a#download:hover{background:#b6f7e7}
+#collect,#download{font:inherit;font-weight:700;border:1px solid transparent;border-radius:8px;padding:11px 16px;cursor:pointer;text-decoration:none}
+#collect{background:#9be8d5;color:#123345}
+#collect:hover:not(:disabled){background:#b6f7e7}
+#collect:disabled{cursor:wait;opacity:.75}
+#download{border-color:#9ac7cb;color:#fff}
+#download:hover{background:#254b5f}
 [hidden]{display:none!important}
 #message{margin:16px 0 0;font-size:.92rem;color:#d4e4ed}
 section,details{background:white;border:1px solid var(--line);border-radius:12px;margin-top:20px;padding:16px}
 .section-heading{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:12px}
+.filters{display:flex;gap:8px 14px;flex-wrap:wrap}
 h2{font-size:1.25rem;margin:0}
 label{font-size:.9rem;color:var(--muted)}
 select{margin-left:5px;padding:6px;border:1px solid #a4b6bf;border-radius:6px;background:white;color:var(--ink);font:inherit}

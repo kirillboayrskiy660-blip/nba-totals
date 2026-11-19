@@ -2,7 +2,16 @@
   "name": "nba-totals-pages",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=24" },
-  "scripts": { "build": "node build.mjs" },
-  "dependencies": { "fflate": "0.8.3" }
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "fflate": "0.8.3"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
 }

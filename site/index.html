@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Тоталы очков NBA</title>
+  <title>Тоталы игроков NBA</title>
   <link rel="stylesheet" href="./style.css">
   <script defer src="./ui.js"></script>
 </head>
@@ -11,9 +11,10 @@
   <main>
     <header>
       <p class="label">Прематч · FONBET и БЕТСИТИ</p>
-      <h1>Тоталы очков NBA</h1>
+      <h1>Тоталы игроков NBA</h1>
       <p class="intro">Выгрузка коэффициентов «Больше» и «Меньше» по игрокам.</p>
       <div class="actions">
+        <button id="collect" type="button" disabled>Собрать данные сейчас</button>
         <a id="download" href="./NBA_totals.xlsx" download hidden>Скачать Excel</a>
       </div>
       <p id="message" role="status" aria-live="polite">Загружаю последний отчёт…</p>
@@ -21,11 +22,20 @@
     <section aria-labelledby="preview-title">
       <div class="section-heading">
         <h2 id="preview-title">Тоталы игроков</h2>
-        <label>Букмекер <select id="source">
-          <option value="">Все</option>
-          <option>FONBET</option>
-          <option>БЕТСИТИ</option>
-        </select></label>
+        <div class="filters">
+          <label>Букмекер <select id="source">
+            <option value="">Все</option>
+            <option>FONBET</option>
+            <option>БЕТСИТИ</option>
+          </select></label>
+          <label>Показатель <select id="stat">
+            <option value="">Все</option>
+            <option>Очки</option>
+            <option>Подборы</option>
+            <option>Передачи</option>
+            <option>Забитые трёхочковые</option>
+          </select></label>
+        </div>
       </div>
       <div class="scroll" tabindex="0" aria-label="Таблица тоталов игроков"><table id="preview"></table></div>
       <p id="count" class="muted"></p>
